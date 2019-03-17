@@ -46,7 +46,7 @@
             this.save_reg.Name = "save_reg";
             this.save_reg.Size = new System.Drawing.Size(421, 71);
             this.save_reg.TabIndex = 0;
-            this.save_reg.Text = "Зарегистрироваться";
+            this.save_reg.Text = "Зарегистрировать пользователя";
             this.save_reg.UseVisualStyleBackColor = true;
             this.save_reg.Click += new System.EventHandler(this.save_reg_Click);
             // 
@@ -132,9 +132,10 @@
             this.Controls.Add(this.reg_login);
             this.Controls.Add(this.save_reg);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Регистрация";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

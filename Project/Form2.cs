@@ -10,7 +10,7 @@ namespace Project
             InitializeComponent();
         }
 
-        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e) // подтверждение выхода из формы
         {
             DialogResult result;
 
@@ -24,9 +24,7 @@ namespace Project
 
         private void save_reg_Click(object sender, EventArgs e)
         {
-            Form1.login.Add(reg_login.Text.ToString());
-            Form1.password.Add(reg_password.Text.ToString());
-            Form1.position.Add(reg_positions.Items.ToString());
+          
         }
 
         private void back_to_start_Click(object sender, EventArgs e)

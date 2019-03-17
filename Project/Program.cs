@@ -11,6 +11,9 @@ namespace Project
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
+        /// 
+        public static Form3 f3;
+
         [STAThread]
         static void Main()
         {
