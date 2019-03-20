@@ -35,7 +35,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.reg_positions = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.back_to_start = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // save_reg
@@ -106,24 +105,12 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Выберите Вашу должность";
             // 
-            // back_to_start
-            // 
-            this.back_to_start.Font = new System.Drawing.Font("Microsoft Tai Le", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.back_to_start.Location = new System.Drawing.Point(327, 12);
-            this.back_to_start.Name = "back_to_start";
-            this.back_to_start.Size = new System.Drawing.Size(82, 37);
-            this.back_to_start.TabIndex = 7;
-            this.back_to_start.Text = "Вернуться";
-            this.back_to_start.UseVisualStyleBackColor = true;
-            this.back_to_start.Click += new System.EventHandler(this.back_to_start_Click);
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(95)))), ((int)(((byte)(103)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(421, 357);
-            this.Controls.Add(this.back_to_start);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.reg_positions);
             this.Controls.Add(this.label2);
@@ -137,6 +124,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Регистрация";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
+//            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,6 +139,5 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox reg_positions;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button back_to_start;
     }
 }

@@ -6,7 +6,8 @@ namespace Project
 {
     public partial class Form1 : Form
     {
-        private SQLiteConnection db; //строка подключения
+        //public SQLiteConnection db; //строка подключения       
+        globalVar glob = new globalVar();
         int count = 0; //счётчик неудачных попыток входа
         int time = 20; //счётчик времени
 
@@ -17,10 +18,12 @@ namespace Project
 
                 case "Manager":
                     Program.f3.reg_button.Visible = false;
+                    Program.f3.del_change_button.Visible = false;
                     break;
 
                 case "Seller":
                     Program.f3.reg_button.Visible = false;
+                    Program.f3.del_change_button.Visible = false;
                     break;                    
             }
         
@@ -29,22 +32,12 @@ namespace Project
 
         public Form1()
         {
-            InitializeComponent();
+            Program.f1 = this;
+            InitializeComponent();           
         }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            db = new SQLiteConnection("Data Source = db.db; Version = 3");
-            try { db.Open(); }
-            catch (Exception)
-            {
-                MessageBox.Show("DB??");
-            }
-        }
-
-
+        
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) // подтверждения выхода
-        {
+        {      
             DialogResult result;
 
             result = MessageBox.Show("Вы уверены, что хотите выйти?", "Выход", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -53,18 +46,21 @@ namespace Project
             {
                 e.Cancel = true;
             }
-            db.Close();
+            glob.StopSQLite();
         }
 
         private void Enter_but_Click(object sender, EventArgs e)
         {
+            glob.StartSQLite();
+
             string log = Login.Text.ToUpper();
             string pass = Password.Text.ToUpper();
 
             if (Login.Text != "" && Password.Text != "")
             {
+                
 
-                SQLiteCommand cmd = db.CreateCommand();
+                SQLiteCommand cmd = globalVar.db.CreateCommand();
 
                 cmd.CommandText = "select * from log_table where login like @login and password like @password"; // ищем в таблице БД такие логин и пароль
 
@@ -75,20 +71,20 @@ namespace Project
 
                 if (SQL.HasRows) //если такая строка нашлась ...
                 {                   
-                    SQLiteCommand getcmd = db.CreateCommand();
+                    SQLiteCommand getcmd = globalVar.db.CreateCommand();
                     getcmd.CommandText = "select position from log_table where login like @login and password like @password"; //запрос на получение уровня доступа
 
                     getcmd.Parameters.Add("@login", System.Data.DbType.String).Value = log; //подставляем параметры
                     getcmd.Parameters.Add("@password", System.Data.DbType.String).Value = pass;
 
-                   string pos = (string)getcmd.ExecuteScalar(); //здесь лежит позиция входящего человека
-                  
+                    string pos = (string)getcmd.ExecuteScalar(); //здесь лежит позиция входящего человека
+                    glob.StopSQLite();
                     this.Hide(); //эту форму прячем
                     Form3 frm3 = new Form3();
                     frm3.Show();//показываем другую форму
 
                     get_position(pos); // вызываем метод для отключения инфы, которая недоступна
-
+                    
 
                 }
                 else // если пароль или логин неправильный
@@ -101,12 +97,7 @@ namespace Project
                         MessageBox.Show("Временная блокировка, ожидайте 20 секунд."); 
                         timer1.Start(); //вызываем таймер
                     }
-
-                    else
-                    {
-                        MessageBox.Show("");
-                    }
-
+                    
                 }
             }
         }
@@ -126,7 +117,6 @@ namespace Project
                 Enter_but.Enabled = true;
                 count = 0;
             }
-        }    
-                
+        }     
     }
 }

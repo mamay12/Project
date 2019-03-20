@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Data.SQLite;
 using System.Windows.Forms;
 
@@ -6,21 +7,14 @@ namespace Project
 {
     public partial class Form3 : Form
     {
-        public SQLiteConnection db; //строка подключения
+        globalVar glob = new globalVar();
 
         public Form3()
         {
-            Program.f3 = this; //указатель на Form3 (нужен для обращения к элементу этой формы из других форм)
+            Program.f3 = this; //указатель на Form3 (нужен для обращения к элементу этой формы из других форм)            
             InitializeComponent();
-        }      
-      
-      
-        private void reg_button_Click(object sender, EventArgs e)
-        {
-            Form2 form2 = new Form2();
-            form2.Show();
         }
-
+        
         private void Form3_FormClosing(object sender, FormClosingEventArgs e) // подтверждение выхода из формы
         {
             DialogResult result;
@@ -31,7 +25,20 @@ namespace Project
             {
                 e.Cancel = true;
             }
-            db.Close();
+
+            Environment.Exit(1);
+        }
+
+        private void reg_button_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
+        }
+
+        private void del_change_button_Click(object sender, EventArgs e)
+        {
+            Form4 form4 = new Form4();
+            form4.Show();
         }
     }
 }
