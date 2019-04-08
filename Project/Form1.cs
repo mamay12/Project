@@ -117,6 +117,6 @@ namespace Project
                 Enter_but.Enabled = true;
                 count = 0;
             }
-        }     
+        }             
     }
 }
