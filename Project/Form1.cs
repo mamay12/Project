@@ -11,25 +11,6 @@ namespace Project
         int count = 0; //счётчик неудачных попыток входа
         int time = 20; //счётчик времени
 
-        public void get_position(string pos) { // метод для отображения тех или иных объектов исходя из уровня доступа
-            switch (pos) {
-                case "Director":
-                    break;
-
-                case "Manager":
-                    Program.f3.reg_button.Visible = false;
-                    Program.f3.del_change_button.Visible = false;
-                    break;
-
-                case "Seller":
-                    Program.f3.reg_button.Visible = false;
-                    Program.f3.del_change_button.Visible = false;
-                    break;                    
-            }
-        
-        } 
-      
-
         public Form1()
         {
             Program.f1 = this;
@@ -42,24 +23,20 @@ namespace Project
 
             result = MessageBox.Show("Вы уверены, что хотите выйти?", "Выход", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (result == DialogResult.No)
+            if (result == DialogResult.Yes)
             {
-                e.Cancel = true;
+                Environment.Exit(0);
             }
-            glob.StopSQLite();
+            e.Cancel = true;
         }
 
         private void Enter_but_Click(object sender, EventArgs e)
         {
-            glob.StartSQLite();
-
             string log = Login.Text.ToUpper();
             string pass = Password.Text.ToUpper();
 
             if (Login.Text != "" && Password.Text != "")
             {
-                
-
                 SQLiteCommand cmd = globalVar.db.CreateCommand();
 
                 cmd.CommandText = "select * from log_table where login like @login and password like @password"; // ищем в таблице БД такие логин и пароль
@@ -78,14 +55,30 @@ namespace Project
                     getcmd.Parameters.Add("@password", System.Data.DbType.String).Value = pass;
 
                     string pos = (string)getcmd.ExecuteScalar(); //здесь лежит позиция входящего человека
-                    glob.StopSQLite();
-                    this.Hide(); //эту форму прячем
-                    Form3 frm3 = new Form3();
-                    frm3.Show();//показываем другую форму
+                    SQL.Close();
 
-                    get_position(pos); // вызываем метод для отключения инфы, которая недоступна
-                    
+                    switch (pos){
+                        case "Director":
+                            this.Hide();
+                            AdminForm admForm = new AdminForm();
+                            admForm.Closed += (s, args) => this.Close();
+                            admForm.Show();
+                            break;
 
+                        case "Manager":
+                            this.Hide();
+                            ManagerForm mngForm = new ManagerForm();
+                            mngForm.Closed += (s, args) => this.Close();
+                            mngForm.Show();
+                            break;
+
+                        case "Seller":
+                            this.Hide();
+                            SellerForm sellForm = new SellerForm();
+                            sellForm.Closed += (s, args) => this.Close();
+                            sellForm.Show();
+                            break;
+                    }  
                 }
                 else // если пароль или логин неправильный
                 {
@@ -117,6 +110,11 @@ namespace Project
                 Enter_but.Enabled = true;
                 count = 0;
             }
-        }             
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            glob.StartSQLite();
+        }
     }
 }
